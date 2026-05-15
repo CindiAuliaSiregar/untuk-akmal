@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+
+    /* --- RESPONSIVE DESIGN UNTUK HP --- */
+        /* Kode di bawah ini hanya akan aktif jika web dibuka di layar sempit (kurang dari 600px) */
+        @media (max-width: 600px) {
+            .btn-container {
+                /* Menaikkan tombol sedikit ke atas agar tidak tertutup sistem navigasi HP */
+                bottom: 15%; 
+            }
+            button {
+                /* Mengecilkan ukuran tombol di HP */
+                font-size: 0.85rem;
+                padding: 10px 18px;
+            }
+        }
+    
+    <style>
+        /* Desain dasar untuk seluruh halaman web (body) */
+        body {
+            /* Menghilangkan jarak (margin) putih di pinggir layar */
+            margin: 0;
+            /* Mengubah warna latar belakang menjadi hitam pekat */
+            background-color: #000;
+            /* Menggunakan Flexbox agar elemen mudah diatur posisinya */
+            display: flex;
+            /* Menyusun elemen dari atas ke bawah */
+            flex-direction: column;
+            /* Memposisikan konten pas di tengah layar secara vertikal */
+            justify-content: center;
+            /* Memposisikan konten pas di tengah layar secara horizontal */
+            align-items: center;
+            /* Menyesuaikan tinggi halaman dengan tinggi layar penuh (100 Viewport Height) */
+            height: 100vh;
+            /* Menyembunyikan apa pun yang keluar dari batas layar (mencegah scroll bar) */
+            overflow: hidden;
+            /* Memberikan efek kedalaman 3D sebesar 1000 pixel */
+            perspective: 1000px;
+            /* Mengatur jenis huruf/font standar */
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Wadah untuk bentuk hati */
+        .container {
+            /* Posisinya diatur relatif terhadap body */
+            position: relative;
+            /* Memastikan partikel di dalamnya tetap menjaga efek 3D mereka */
+            transform-style: preserve-3d;
+            /* Layer index 10 agar berada di atas kembang api, tapi di bawah tombol */
+            z-index: 10;
+        }
+
+        /* Desain untuk masing-masing teks (I Love You / Nama Akmal) */
+        .ui_love_word {
+            /* Warna teks pink cerah */
+            color: #ea80b0;
+            /* Posisi absolut agar bisa ditumpuk dan digerakkan dengan bebas */
+            position: absolute;
+            /* Memberikan efek bersinar (glowing) berwarna pink muda di belakang teks */
+            text-shadow: 0 0 10px #ffb3d9;
+            /* Mencegah teks turun ke baris baru (dipaksa sebaris) */
+            white-space: nowrap;
+            /* Tingkat transparansi 1 (terlihat sepenuhnya/tidak transparan) */
+            opacity: 1; 
+        }
+
+        /* Wadah khusus untuk area tombol di bawah */
+        .btn-container {
+            /* Posisinya absolut menempel di bawah */
+            position: absolute;
+            /* Berjarak 10% dari layar bagian bawah */
+            bottom: 10%;
+            /* Layer index 20, paling atas agar selalu bisa diklik */
+            z-index: 20;
+        }
+
+        /* Desain untuk Tombol */
+        button {
+            /* Warna latar belakang tombol transparan */
+            background-color: transparent;
+            /* Warna teks tombol pink */
+            color: #ea80b0;
+            /* Garis pinggir tombol tebal 2px warna pink */
+            border: 2px solid #ea80b0;
+            /* Jarak antara teks dan garis pinggir tombol (atas-bawah 12px, kiri-kanan 24px) */
+            padding: 12px 24px;
+            /* Ukuran huruf tombol */
+            font-size: 1rem;
+            /* Menebalkan huruf tombol */
+            font-weight: bold;
+            /* Membuat ujung-ujung tombol menjadi bulat/melengkung */
+            border-radius: 30px;
+            /* Mengubah kursor panah menjadi ikon jari saat disorot */
+            cursor: pointer;
+            /* Efek bayangan luar tombol warna pink transparan */
+            box-shadow: 0 0 15px rgba(234, 128, 176, 0.3);
+            /* Transisi halus saat tombol disentuh (durasi 0.3 detik) */
+            transition: all 0.3s ease;
+            /* Memberi efek buram (blur) pada background yang ada tepat di belakang tombol */
+            backdrop-filter: blur(5px);
+        }
+
+        /* Perubahan saat tombol disorot oleh mouse / ditahan di HP (Hover) */
+        button:hover {
+            /* Background tombol berubah jadi pink pekat */
+            background-color: #ea80b0;
+            /* Teks tombol berubah jadi hitam */
+            color: #000;
+            /* Bayangannya makin terang */
+            box-shadow: 0 0 20px #ffb3d9;
+            /* Tombol sedikit membesar (skala 1.05) */
+            transform: scale(1.05);
+        }
+
+        /* Wadah khusus untuk kembang api */
+        #fireworks-container {
+            /* Menempel ke sudut kiri atas layar */
+            position: absolute;
+            top: 0; left: 0;
+            /* Mengambil lebar 100% dan tinggi 100% layar */
+            width: 100vw; height: 100vh;
+            /* Layer index 1, paling belakang (di belakang hati) */
+            z-index: 1; 
+            /* Mengabaikan klik, sehingga kalau kita klik di area ini, klik tembus ke tombol */
+            pointer-events: none; 
+        }
+
+        /* Desain untuk satu butir/percikan kembang api */
+        .spark {
+            position: absolute;
+            /* Ukuran percikan sangat kecil (4x4 pixel) */
+            width: 4px; height: 4px;
+            /* Dibuat menjadi bulat sempurna */
+            border-radius: 50%;
+            /* Menjalankan animasi bernama 'explode' selama 1.5 detik */
+            animation: explode 1.5s ease-out forwards;
+        }
+
+        /* Rumus Animasi pergerakan Kembang Api */
+        @keyframes explode {
+            /* Frame awal (0%): Skala normal (1), posisi diam di tengah (0,0), terlihat jelas (opacity 1) */
+            0% { transform: scale(1) translate(0,0); opacity: 1; }
+            /* Frame akhir (100%): Skala menyusut hilang (0), melesat ke arah dx dan dy, memudar (opacity 0) */
+            100% { transform: scale(0) translate(var(--dx), var(--dy)); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="fireworks-container"></div>
+
+    <div class="container" id="heart-container"></div>
+
+    <div class="btn-container">
+        <button id="toggleBtn">✨ Sayang, Klik ini yaa ✨</button>
+    </div>
+
+    <script>
+        // Mengambil elemen HTML dari atas dan menyimpannya ke variabel JS
+        const container = document.getElementById('heart-container');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const fwContainer = document.getElementById('fireworks-container');
+
+        // Variabel pelacak status: apakah sedang menampilkan nama (true) atau I Love You (false)?
+        let isName = false;
+        // Menyimpan teks standar
+        const text1 = "I Love You";
+        // Menyimpan teks nama
+        const text2 = "Muhammad Akmal Fadilah NGESELIN WLEE!!!";
+        
+        // Membuat Array (daftar) kosong untuk menyimpan data posisi tiap huruf/teks
+        let particlesData = []; 
+        // Variabel untuk menyimpan ID Animasi (digunakan untuk menghentikan animasi nanti)
+        let animationFrameId;
+
+        // --- FUNGSI UNTUK MEMBUAT BENTUK HATI ---
+        function createHeart() {
+            // Bersihkan isi wadah hati (reset ulang)
+            container.innerHTML = ''; 
+            // Kosongkan memori data posisi
+            particlesData = [];
+            
+            // JUMLAH TEKS DIKURANGI DARI 300 MENJADI 45 AGAR TIDAK TERLALU RAPAT
+            const numParticles = 80; 
+
+            // Melakukan perulangan sebanyak 45 kali untuk membuat 45 teks
+            for (let i = 0; i < numParticles; i++) {
+                // Menghitung titik sudut awal 't' untuk setiap teks secara merata di sepanjang jalur hati
+                let t = Math.PI * 2 * (i / numParticles);
+                // Menentukan ketebalan 3D secara acak (maju-mundur)
+                let z = (Math.random() - 0.5) * 40;
+
+                // Membuat tag HTML <div> baru
+                let el = document.createElement('div');
+                // Memberikan kelas CSS ke <div> tersebut
+                el.className = 'ui_love_word';
+                // Menentukan isi teks (Jika isName true = Nama Akmal, jika false = I Love You)
+                el.innerText = isName ? text2 : text1;
+                // Membedakan ukuran font. Jika nama (panjang) fontnya 0.8rem, jika I love You (pendek) 1.3rem
+                el.style.fontSize = isName ? "0.5rem" : "1.0rem";
+
+                // Memasukkan <div> yang sudah jadi ke dalam wadah HTML
+                container.appendChild(el);
+                
+                // Menyimpan elemen beserta data matematikanya ke dalam memori Array agar bisa digerakkan
+                particlesData.push({ el, t, z });
+            }
+        }
+
+        // --- FUNGSI UNTUK MENGGERAKKAN TEKS MENGALIR ---
+        function animateHeart() {
+            // Memeriksa satu per satu dari 45 data teks yang tersimpan
+            particlesData.forEach(p => {
+                // INI KUNCI ANIMASINYA: Menambah nilai sudut 't' setiap detik. 
+                // Semakin besar ditambah (misal 0.01), semakin cepat dia berputar. 0.003 cukup pelan.
+                p.t += 0.002; 
+                
+                // Menghitung ulang kordinat X (kanan-kiri) menggunakan rumus matematika parameterik Hati
+                let x = 16 * Math.pow(Math.sin(p.t), 3);
+                // Menghitung ulang kordinat Y (atas-bawah) menggunakan rumus matematika parameterik Hati
+                let y = -(13 * Math.cos(p.t) - 5 * Math.cos(2*p.t) - 2 * Math.cos(3*p.t) - Math.cos(4*p.t));
+
+                // Rumus asli menghasilkan bentuk yang terlalu kecil, kita perbesar (scale up) 18 kali lipat
+                let scale = 20;
+                x *= scale;
+                y *= scale;
+
+                // Menerapkan posisi X dan Y yang sudah dihitung ke elemen teks di layar
+                p.el.style.transform = `translate(-50%, -25%) translate3d(${x}px, ${y}px, ${p.z}px)`;
+            });
+            
+            // Meminta browser untuk memanggil fungsi animateHeart ini lagi secara terus menerus (looping animasi)
+            animationFrameId = requestAnimationFrame(animateHeart);
+        }
+
+        // --- FUNGSI UNTUK MENEMBAKKAN KEMBANG API ---
+        function shootFirework() {
+            // Menentukan posisi tengah ledakan secara acak di layar X (lebar)
+            let cx = Math.random() * window.innerWidth;
+            // Menentukan posisi tengah ledakan secara acak di layar Y (tinggi)
+            let cy = Math.random() * window.innerHeight;
+
+            // Menyediakan pilihan warna kembang api (Nuansa Pink dan Putih)
+            const colors = ['#ffb3d9', '#ea80b0', '#ffffff', '#ff99cc'];
+            // Mengambil satu warna secara acak dari pilihan di atas
+            let color = colors[Math.floor(Math.random() * colors.length)];
+
+            // Melakukan perulangan 40 kali untuk membuat 40 butir percikan dalam satu ledakan
+            for(let i = 0; i < 50; i++) {
+                // Membuat elemen <div> baru untuk satu butir percikan
+                let spark = document.createElement('div');
+                spark.className = 'spark'; // Menyambungkan ke CSS .spark
+                spark.style.background = color; // Memberi warna
+                // Memberi efek menyala pada percikan
+                spark.style.boxShadow = `0 0 10px ${color}, 0 0 20px #fff`;
+                
+                // Menentukan arah lontaran percikan secara acak (360 derajat)
+                let angle = Math.random() * Math.PI * 2;
+                // Menentukan sejauh apa percikan melontar (antara 50 sampai 200 piksel)
+                let distance = Math.random() * 150 + 50; 
+                
+                // Menempatkan titik awal percikan di koordinat pusat ledakan (cx, cy)
+                spark.style.left = cx + 'px';
+                spark.style.top = cy + 'px';
+                // Menghitung vektor kecepatan lontaran X (dx) menggunakan cosinus
+                spark.style.setProperty('--dx', Math.cos(angle) * distance + 'px');
+                // Menghitung vektor kecepatan lontaran Y (dy) menggunakan sinus
+                spark.style.setProperty('--dy', Math.sin(angle) * distance + 'px');
+                
+                // Memasukkan percikan tersebut ke layar
+                fwContainer.appendChild(spark);
+                
+                // Menghapus butiran kembang api tersebut dari HTML setelah 1.5 detik (1500ms) 
+                // Ini penting agar browser tidak lag/lemot karena kebanyakan data.
+                setTimeout(() => spark.remove(), 1500);
+            }
+        }
+
+        // --- MENJALANKAN PROGRAM SAAT PERTAMA KALI DIBUKA ---
+        // Panggil fungsi pembuat hati
+        createHeart();
+        // Mulai jalankan perputaran Hati
+        animateHeart();
+        // Memicu kembang api untuk meledak otomatis secara berulang-ulang setiap 0.6 detik (600ms)
+        setInterval(shootFirework, 700);
+
+        // --- LOGIKA KETIKA TOMBOL DIKLIK ---
+        // Mendengarkan/menunggu aksi klik (addEventListener) dari toggleBtn
+        toggleBtn.addEventListener('click', () => {
+            // Membalikkan status: jika sebelumnya false (I Love You), jadi true (Nama Akmal). Begitu pula sebaliknya.
+            isName = !isName;
+            
+            // Hentikan animasi perputaran teks yang lama agar tidak saling tumpang tindih
+            cancelAnimationFrame(animationFrameId);
+            
+            // Buat ulang struktur hatinya dengan teks yang baru
+            createHeart();
+            // Putar kembali animasinya
+            animateHeart();
+            
+            // Ubah tulisan yang ada di dalam tombol tersebut sesuai kondisinya
+            toggleBtn.innerText = isName ? "GA JADI! Ngeselin Pokoknya!!!" : "✨ I Miss You ✨";
+        });
+    </script>
+</body>
+</html>
