@@ -4,147 +4,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For You</title>
-
-    /* --- RESPONSIVE DESIGN UNTUK HP --- */
-        /* Kode di bawah ini hanya akan aktif jika web dibuka di layar sempit (kurang dari 600px) */
-        @media (max-width: 600px) {
-            .btn-container {
-                /* Menaikkan tombol sedikit ke atas agar tidak tertutup sistem navigasi HP */
-                bottom: 15%; 
-            }
-            button {
-                /* Mengecilkan ukuran tombol di HP */
-                font-size: 0.85rem;
-                padding: 10px 18px;
-            }
-        }
     
     <style>
-        /* Desain dasar untuk seluruh halaman web (body) */
+        /* --- STYLING DASAR --- */
         body {
-            /* Menghilangkan jarak (margin) putih di pinggir layar */
+            /* Menghapus spasi default di pinggir layar */
             margin: 0;
-            /* Mengubah warna latar belakang menjadi hitam pekat */
+            /* Latar belakang hitam pekat */
             background-color: #000;
-            /* Menggunakan Flexbox agar elemen mudah diatur posisinya */
+            /* Menggunakan Flexbox untuk memposisikan elemen di tengah layar */
             display: flex;
-            /* Menyusun elemen dari atas ke bawah */
             flex-direction: column;
-            /* Memposisikan konten pas di tengah layar secara vertikal */
             justify-content: center;
-            /* Memposisikan konten pas di tengah layar secara horizontal */
             align-items: center;
-            /* Menyesuaikan tinggi halaman dengan tinggi layar penuh (100 Viewport Height) */
+            /* Tinggi layar 100% dari perangkat */
             height: 100vh;
-            /* Menyembunyikan apa pun yang keluar dari batas layar (mencegah scroll bar) */
+            /* Menyembunyikan elemen yang meluber keluar layar (mencegah scroll) */
             overflow: hidden;
-            /* Memberikan efek kedalaman 3D sebesar 1000 pixel */
+            /* Memberikan efek kedalaman/perspektif 3D pada halaman */
             perspective: 1000px;
-            /* Mengatur jenis huruf/font standar */
+            /* Mengatur jenis font dasar */
             font-family: 'Arial', sans-serif;
         }
 
-        /* Wadah untuk bentuk hati */
+        /* --- STYLING WADAH HATI --- */
         .container {
-            /* Posisinya diatur relatif terhadap body */
+            /* Posisinya relatif terhadap dokumen */
             position: relative;
-            /* Memastikan partikel di dalamnya tetap menjaga efek 3D mereka */
+            /* Memastikan anak elemen (partikel teks) mempertahankan efek 3D mereka */
             transform-style: preserve-3d;
-            /* Layer index 10 agar berada di atas kembang api, tapi di bawah tombol */
+            /* Z-index 10 agar berada di atas kembang api, tapi di bawah tombol */
             z-index: 10;
         }
 
-        /* Desain untuk masing-masing teks (I Love You / Nama Akmal) */
+        /* --- STYLING PARTIKEL TEKS --- */
         .ui_love_word {
-            /* Warna teks pink cerah */
+            /* Warna font pink */
             color: #ea80b0;
-            /* Posisi absolut agar bisa ditumpuk dan digerakkan dengan bebas */
+            /* Posisinya absolut agar bisa ditumpuk dan dimanipulasi posisinya */
             position: absolute;
-            /* Memberikan efek bersinar (glowing) berwarna pink muda di belakang teks */
+            /* Memberikan efek bayangan menyala (glow) warna pink muda */
             text-shadow: 0 0 10px #ffb3d9;
-            /* Mencegah teks turun ke baris baru (dipaksa sebaris) */
+            /* Mencegah teks terpotong ke baris baru */
             white-space: nowrap;
-            /* Tingkat transparansi 1 (terlihat sepenuhnya/tidak transparan) */
             opacity: 1; 
+            /* Transisi halus saat ukuran font berubah (misal saat diputar dari landscape ke portrait) */
+            transition: font-size 0.5s ease;
         }
 
-        /* Wadah khusus untuk area tombol di bawah */
+        /* --- STYLING AREA TOMBOL --- */
         .btn-container {
-            /* Posisinya absolut menempel di bawah */
+            /* Posisinya absolut di bagian bawah layar */
             position: absolute;
-            /* Berjarak 10% dari layar bagian bawah */
-            bottom: 10%;
-            /* Layer index 20, paling atas agar selalu bisa diklik */
+            bottom: 10%; /* Jarak 10% dari bawah */
+            /* Z-index 20 agar selalu ada di lapisan teratas (selalu bisa diklik) */
             z-index: 20;
+            /* Lebar penuh agar tombol bisa dipusatkan */
+            width: 100%;
+            display: flex;
+            justify-content: center;
         }
 
-        /* Desain untuk Tombol */
         button {
-            /* Warna latar belakang tombol transparan */
+            /* Tombol tembus pandang */
             background-color: transparent;
-            /* Warna teks tombol pink */
+            /* Teks warna pink */
             color: #ea80b0;
-            /* Garis pinggir tombol tebal 2px warna pink */
+            /* Garis pinggir warna pink */
             border: 2px solid #ea80b0;
-            /* Jarak antara teks dan garis pinggir tombol (atas-bawah 12px, kiri-kanan 24px) */
+            /* Jarak teks ke garis pinggir (atas-bawah 12px, kiri-kanan 24px) */
             padding: 12px 24px;
-            /* Ukuran huruf tombol */
             font-size: 1rem;
-            /* Menebalkan huruf tombol */
             font-weight: bold;
-            /* Membuat ujung-ujung tombol menjadi bulat/melengkung */
+            /* Membuat pinggiran tombol bulat */
             border-radius: 30px;
-            /* Mengubah kursor panah menjadi ikon jari saat disorot */
+            /* Ubah kursor jadi tangan saat disorot */
             cursor: pointer;
-            /* Efek bayangan luar tombol warna pink transparan */
+            /* Bayangan bercahaya warna pink */
             box-shadow: 0 0 15px rgba(234, 128, 176, 0.3);
-            /* Transisi halus saat tombol disentuh (durasi 0.3 detik) */
+            /* Transisi halus untuk semua perubahan (saat di-hover) */
             transition: all 0.3s ease;
-            /* Memberi efek buram (blur) pada background yang ada tepat di belakang tombol */
+            /* Memberi efek blur pada background yang ada di balik tombol */
             backdrop-filter: blur(5px);
         }
 
-        /* Perubahan saat tombol disorot oleh mouse / ditahan di HP (Hover) */
+        /* Efek saat tombol disorot (hover) */
         button:hover {
-            /* Background tombol berubah jadi pink pekat */
+            /* Warna tombol jadi pink penuh */
             background-color: #ea80b0;
-            /* Teks tombol berubah jadi hitam */
+            /* Teks jadi hitam */
             color: #000;
-            /* Bayangannya makin terang */
+            /* Bayangan makin terang */
             box-shadow: 0 0 20px #ffb3d9;
-            /* Tombol sedikit membesar (skala 1.05) */
+            /* Tombol sedikit membesar */
             transform: scale(1.05);
         }
 
-        /* Wadah khusus untuk kembang api */
+        /* --- OPTIMALISASI MOBILE (MEDIA QUERY) --- */
+        /* Perintah ini hanya dieksekusi JIKA lebar layar kurang dari 600px (layar HP) */
+        @media (max-width: 600px) {
+            .btn-container {
+                /* Tombol dinaikkan agar tidak terhalang menu navigasi bawah di HP modern */
+                bottom: 15%; 
+            }
+            button {
+                /* Ukuran tombol dikecilkan agar pas di HP */
+                font-size: 0.85rem;
+                padding: 10px 20px;
+            }
+        }
+
+        /* --- STYLING WADAH KEMBANG API --- */
         #fireworks-container {
-            /* Menempel ke sudut kiri atas layar */
+            /* Posisinya tetap di pojok kiri atas, mengambil seluruh layar */
             position: absolute;
             top: 0; left: 0;
-            /* Mengambil lebar 100% dan tinggi 100% layar */
             width: 100vw; height: 100vh;
-            /* Layer index 1, paling belakang (di belakang hati) */
+            /* Berada di lapisan paling belakang */
             z-index: 1; 
-            /* Mengabaikan klik, sehingga kalau kita klik di area ini, klik tembus ke tombol */
+            /* Klik tidak akan berefek pada wadah ini (agar tidak memblokir tombol) */
             pointer-events: none; 
         }
 
-        /* Desain untuk satu butir/percikan kembang api */
+        /* --- STYLING PERCIKAN KEMBANG API --- */
         .spark {
             position: absolute;
-            /* Ukuran percikan sangat kecil (4x4 pixel) */
+            /* Ukuran butiran sangat kecil */
             width: 4px; height: 4px;
-            /* Dibuat menjadi bulat sempurna */
-            border-radius: 50%;
-            /* Menjalankan animasi bernama 'explode' selama 1.5 detik */
+            border-radius: 50%; /* Bulat sempurna */
+            /* Panggil animasi 'explode' berdurasi 1.5 detik, dan biarkan di kondisi terakhir (forwards) */
             animation: explode 1.5s ease-out forwards;
         }
 
-        /* Rumus Animasi pergerakan Kembang Api */
+        /* Keyframes Animasi Ledakan */
         @keyframes explode {
-            /* Frame awal (0%): Skala normal (1), posisi diam di tengah (0,0), terlihat jelas (opacity 1) */
+            /* Awal ledakan: skala normal (1), posisi (0,0), terlihat jelas (opacity 1) */
             0% { transform: scale(1) translate(0,0); opacity: 1; }
-            /* Frame akhir (100%): Skala menyusut hilang (0), melesat ke arah dx dan dy, memudar (opacity 0) */
+            /* Akhir ledakan: skala mengecil jadi 0, bergerak ke arah vektor dx dan dy, dan menghilang (opacity 0) */
             100% { transform: scale(0) translate(var(--dx), var(--dy)); opacity: 0; }
         }
     </style>
@@ -152,7 +148,7 @@
 <body>
 
     <div id="fireworks-container"></div>
-
+    
     <div class="container" id="heart-container"></div>
 
     <div class="btn-container">
@@ -160,156 +156,167 @@
     </div>
 
     <script>
-        // Mengambil elemen HTML dari atas dan menyimpannya ke variabel JS
+        // Tangkap elemen-elemen HTML dan simpan dalam variabel
         const container = document.getElementById('heart-container');
         const toggleBtn = document.getElementById('toggleBtn');
         const fwContainer = document.getElementById('fireworks-container');
 
-        // Variabel pelacak status: apakah sedang menampilkan nama (true) atau I Love You (false)?
+        // Status: false berarti tulisan "I Love You", true berarti tulisan panjang
         let isName = false;
-        // Menyimpan teks standar
+        // Definisi Teks
         const text1 = "I Love You";
-        // Menyimpan teks nama
         const text2 = "Muhammad Akmal Fadilah NGESELIN WLEE!!!";
         
-        // Membuat Array (daftar) kosong untuk menyimpan data posisi tiap huruf/teks
+        // Array untuk menyimpan data setiap partikel (elemen HTML dan parameternya)
         let particlesData = []; 
-        // Variabel untuk menyimpan ID Animasi (digunakan untuk menghentikan animasi nanti)
+        // Variabel untuk mengontrol perulangan animasi
         let animationFrameId;
 
-        // --- FUNGSI UNTUK MEMBUAT BENTUK HATI ---
+        // FUNGSI: Membuat struktur HTML partikel hati
         function createHeart() {
-            // Bersihkan isi wadah hati (reset ulang)
+            // Bersihkan wadah agar tidak tumpang tindih dengan yang lama
             container.innerHTML = ''; 
-            // Kosongkan memori data posisi
+            // Kosongkan memori partikel
             particlesData = [];
             
-            // JUMLAH TEKS DIKURANGI DARI 300 MENJADI 45 AGAR TIDAK TERLALU RAPAT
-            const numParticles = 80; 
+            // DETEKSI MOBILE: Cek apakah lebar layar kurang dari 600px
+            const isMobile = window.innerWidth < 600;
+            // Jika di HP, jumlah partikel dikurangi jadi 60 agar tidak berat. Jika di Laptop, 80 partikel.
+            const numParticles = isMobile ? 60 : 80; 
 
-            // Melakukan perulangan sebanyak 45 kali untuk membuat 45 teks
+            // Ulangi pembuatan teks sebanyak jumlah partikel yang ditentukan
             for (let i = 0; i < numParticles; i++) {
-                // Menghitung titik sudut awal 't' untuk setiap teks secara merata di sepanjang jalur hati
+                // Hitung sudut penempatan awal untuk setiap teks agar membentuk lingkaran penuh
                 let t = Math.PI * 2 * (i / numParticles);
-                // Menentukan ketebalan 3D secara acak (maju-mundur)
+                // Beri nilai kedalaman (sumbu Z) secara acak untuk efek 3D (maju/mundur)
                 let z = (Math.random() - 0.5) * 40;
 
-                // Membuat tag HTML <div> baru
-                let // Mendeteksi apakah ini layar HP
-                let isMobile = window.innerWidth < 600;
-                // Menyesuaikan ukuran font agar lebih kecil di HP dan pas di laptop
-                if (isName) {
-                    el.style.fontSize = isMobile ? "0.4rem" : "0.7rem";
-                } else {
-                    el.style.fontSize = isMobile ? "0.6rem" : "1.0rem";
-                }el = document.createElement('div');
-                // Memberikan kelas CSS ke <div> tersebut
+                // Buat tag <div> baru untuk satu kalimat
+                let el = document.createElement('div');
                 el.className = 'ui_love_word';
-                // Menentukan isi teks (Jika isName true = Nama Akmal, jika false = I Love You)
+                // Masukkan teks sesuai status saat ini
                 el.innerText = isName ? text2 : text1;
-                // Membedakan ukuran font. Jika nama (panjang) fontnya 0.8rem, jika I love You (pendek) 1.3rem
-                el.style.fontSize = isName ? "0.5rem" : "1.0rem";
-
-                // Memasukkan <div> yang sudah jadi ke dalam wadah HTML
-                container.appendChild(el);
                 
-                // Menyimpan elemen beserta data matematikanya ke dalam memori Array agar bisa digerakkan
+                // SKALA FONT DINAMIS
+                if (isMobile) {
+                    // Jika layar HP: teks panjang ukurannya 0.45rem, teks pendek 0.85rem
+                    el.style.fontSize = isName ? "0.45rem" : "0.85rem";
+                } else {
+                    // Jika layar Laptop: teks panjang ukurannya 0.55rem, teks pendek 1.1rem
+                    el.style.fontSize = isName ? "0.55rem" : "1.1rem";
+                }
+
+                // Masukkan <div> kalimat tersebut ke dalam wadah HTML
+                container.appendChild(el);
+                // Simpan elemen HTML, nilai sudut (t), dan kedalaman (z) ke dalam memori
                 particlesData.push({ el, t, z });
             }
         }
 
-        // --- FUNGSI UNTUK MENGGERAKKAN TEKS MENGALIR ---
+        // FUNGSI: Menganimasi/menggerakkan partikel teks mengikuti jalur hati
         function animateHeart() {
-            // Memeriksa satu per satu dari 45 data teks yang tersimpan
+            // Cek lagi apakah layar HP
+            const isMobile = window.innerWidth < 600;
+            
+            // Loop melalui setiap partikel yang tersimpan
             particlesData.forEach(p => {
-                // INI KUNCI ANIMASINYA: Menambah nilai sudut 't' setiap detik. 
-                // Semakin besar ditambah (misal 0.01), semakin cepat dia berputar. 0.003 cukup pelan.
+                // Tambahkan nilai t (sudut) setiap frame. Ini yang membuat teks terlihat mengalir/berjalan
                 p.t += 0.002; 
                 
-                // Menghitung ulang kordinat X (kanan-kiri) menggunakan rumus matematika parameterik Hati
+                // RUMUS MATEMATIKA PARAMETRIK HATI
+                // Hitung koordinat sumbu X
                 let x = 16 * Math.pow(Math.sin(p.t), 3);
-                // Menghitung ulang kordinat Y (atas-bawah) menggunakan rumus matematika parameterik Hati
+                // Hitung koordinat sumbu Y
                 let y = -(13 * Math.cos(p.t) - 5 * Math.cos(2*p.t) - 2 * Math.cos(3*p.t) - Math.cos(4*p.t));
 
-                // Rumus asli menghasilkan bentuk yang terlalu kecil, kita perbesar (scale up) 18 kali lipat
-              let scale = window.innerWidth < 600 ? 10 : 20;
+                // SKALA UKURAN HATI DINAMIS
+                // Jika di HP, perbesar rumus sebanyak 11x (agar tidak meluber). Jika di Laptop, perbesar 20x.
+                let scale = isMobile ? 11 : 20; 
                 x *= scale;
                 y *= scale;
 
-                // Menerapkan posisi X dan Y yang sudah dihitung ke elemen teks di layar
-                p.el.style.transform = `translate(-50%, -25%) translate3d(${x}px, ${y}px, ${p.z}px)`;
+                // Terapkan koordinat yang sudah dihitung (ditambah koordinat Z dari memori) ke elemen HTML di layar
+                p.el.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${p.z}px)`;
             });
             
-            // Meminta browser untuk memanggil fungsi animateHeart ini lagi secara terus menerus (looping animasi)
+            // Perintahkan browser untuk terus memanggil fungsi ini (membuat animasi berkelanjutan)
             animationFrameId = requestAnimationFrame(animateHeart);
         }
 
-        // --- FUNGSI UNTUK MENEMBAKKAN KEMBANG API ---
+        // FUNGSI: Menembakkan kembang api
         function shootFirework() {
-            // Menentukan posisi tengah ledakan secara acak di layar X (lebar)
+            // Tentukan koordinat tengah ledakan secara acak di area layar
             let cx = Math.random() * window.innerWidth;
-            // Menentukan posisi tengah ledakan secara acak di layar Y (tinggi)
             let cy = Math.random() * window.innerHeight;
-
-            // Menyediakan pilihan warna kembang api (Nuansa Pink dan Putih)
+            
+            // Daftar warna kembang api
             const colors = ['#ffb3d9', '#ea80b0', '#ffffff', '#ff99cc'];
-            // Mengambil satu warna secara acak dari pilihan di atas
+            // Pilih satu warna acak
             let color = colors[Math.floor(Math.random() * colors.length)];
 
-            // Melakukan perulangan 40 kali untuk membuat 40 butir percikan dalam satu ledakan
-            for(let i = 0; i < 50; i++) {
-                // Membuat elemen <div> baru untuk satu butir percikan
+            // Buat 40 percikan untuk satu ledakan
+            for(let i = 0; i < 40; i++) {
+                // Buat <div> untuk satu percikan
                 let spark = document.createElement('div');
-                spark.className = 'spark'; // Menyambungkan ke CSS .spark
-                spark.style.background = color; // Memberi warna
-                // Memberi efek menyala pada percikan
-                spark.style.boxShadow = `0 0 10px ${color}, 0 0 20px #fff`;
+                spark.className = 'spark';
+                spark.style.background = color; // Terapkan warna
+                spark.style.boxShadow = `0 0 10px ${color}, 0 0 20px #fff`; // Terapkan bayangan glow
                 
-                // Menentukan arah lontaran percikan secara acak (360 derajat)
+                // Tentukan arah lontaran percikan secara acak (sudut 360 derajat)
                 let angle = Math.random() * Math.PI * 2;
-                // Menentukan sejauh apa percikan melontar (antara 50 sampai 200 piksel)
+                // Tentukan jauhnya lontaran secara acak
                 let distance = Math.random() * 150 + 50; 
                 
-                // Menempatkan titik awal percikan di koordinat pusat ledakan (cx, cy)
+                // Posisikan percikan tepat di titik pusat ledakan
                 spark.style.left = cx + 'px';
                 spark.style.top = cy + 'px';
-                // Menghitung vektor kecepatan lontaran X (dx) menggunakan cosinus
+                // Hitung vektor pergerakan sumbu X dan Y berdasarkan sudut dan jarak lontaran
                 spark.style.setProperty('--dx', Math.cos(angle) * distance + 'px');
-                // Menghitung vektor kecepatan lontaran Y (dy) menggunakan sinus
                 spark.style.setProperty('--dy', Math.sin(angle) * distance + 'px');
                 
-                // Memasukkan percikan tersebut ke layar
+                // Masukkan percikan ke layar
                 fwContainer.appendChild(spark);
                 
-                // Menghapus butiran kembang api tersebut dari HTML setelah 1.5 detik (1500ms) 
-                // Ini penting agar browser tidak lag/lemot karena kebanyakan data.
+                // Hapus percikan dari layar setelah animasi selesai (1.5 detik) agar tidak membebani memori HP
                 setTimeout(() => spark.remove(), 1500);
             }
         }
 
-        // --- MENJALANKAN PROGRAM SAAT PERTAMA KALI DIBUKA ---
-        // Panggil fungsi pembuat hati
+        // --- INISIALISASI AWAL ---
+        // Panggil fungsi untuk mencetak partikel awal
         createHeart();
-        // Mulai jalankan perputaran Hati
+        // Mulai animasi pergerakan
         animateHeart();
-        // Memicu kembang api untuk meledak otomatis secara berulang-ulang setiap 0.6 detik (600ms)
-        setInterval(shootFirework, 700);
+        
+        // Panggil fungsi kembang api secara berkala (setiap 0.8 detik atau 800ms)
+        setInterval(shootFirework, 800);
 
-        // --- LOGIKA KETIKA TOMBOL DIKLIK ---
-        // Mendengarkan/menunggu aksi klik (addEventListener) dari toggleBtn
+        // --- PENDENGAR ROTASI LAYAR ---
+        // Listener ini dipanggil otomatis jika pengguna memutar HP atau merubah ukuran jendela browser
+        window.addEventListener('resize', () => {
+            // Hentikan animasi sementara
+            cancelAnimationFrame(animationFrameId);
+            // Hitung dan buat ulang partikel berdasarkan ukuran layar yang baru
+            createHeart();
+            // Lanjutkan animasi
+            animateHeart();
+        });
+
+        // --- PENDENGAR KLIK TOMBOL ---
+        // Dijalankan saat tombol ditekan
         toggleBtn.addEventListener('click', () => {
-            // Membalikkan status: jika sebelumnya false (I Love You), jadi true (Nama Akmal). Begitu pula sebaliknya.
+            // Ubah status (dari teks 1 ke teks 2, atau sebaliknya)
             isName = !isName;
             
-            // Hentikan animasi perputaran teks yang lama agar tidak saling tumpang tindih
+            // Hentikan animasi agar tidak bentrok
             cancelAnimationFrame(animationFrameId);
             
-            // Buat ulang struktur hatinya dengan teks yang baru
+            // Buat ulang partikel dengan teks yang baru dipilih
             createHeart();
-            // Putar kembali animasinya
+            // Lanjutkan animasi pergerakan
             animateHeart();
             
-            // Ubah tulisan yang ada di dalam tombol tersebut sesuai kondisinya
+            // Ganti tulisan di dalam tombol sesuai status
             toggleBtn.innerText = isName ? "GA JADI! Ngeselin Pokoknya!!!" : "✨ I Miss You ✨";
         });
     </script>
