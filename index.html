@@ -195,7 +195,14 @@
                 let z = (Math.random() - 0.5) * 40;
 
                 // Membuat tag HTML <div> baru
-                let el = document.createElement('div');
+                let // Mendeteksi apakah ini layar HP
+                let isMobile = window.innerWidth < 600;
+                // Menyesuaikan ukuran font agar lebih kecil di HP dan pas di laptop
+                if (isName) {
+                    el.style.fontSize = isMobile ? "0.4rem" : "0.7rem";
+                } else {
+                    el.style.fontSize = isMobile ? "0.6rem" : "1.0rem";
+                }el = document.createElement('div');
                 // Memberikan kelas CSS ke <div> tersebut
                 el.className = 'ui_love_word';
                 // Menentukan isi teks (Jika isName true = Nama Akmal, jika false = I Love You)
@@ -225,7 +232,7 @@
                 let y = -(13 * Math.cos(p.t) - 5 * Math.cos(2*p.t) - 2 * Math.cos(3*p.t) - Math.cos(4*p.t));
 
                 // Rumus asli menghasilkan bentuk yang terlalu kecil, kita perbesar (scale up) 18 kali lipat
-                let scale = 20;
+              let scale = window.innerWidth < 600 ? 10 : 20;
                 x *= scale;
                 y *= scale;
 
